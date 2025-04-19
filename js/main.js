@@ -7,7 +7,7 @@ hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('active');
 });
 
-// Smooth Scrolling for Navigation Links
+// Smooth Scrolling and Active Navigation
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -16,7 +16,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         
         if (target) {
             // Calculate the offset to account for fixed header
-            const headerOffset = 85; // Height of the header
+            const headerOffset = 85;
             const elementPosition = target.getBoundingClientRect().top;
             const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -30,6 +30,38 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 navLinks.classList.remove('active');
                 hamburger.classList.remove('active');
             }
+
+            // Update active navigation
+            updateActiveNav(targetId);
+        }
+    });
+});
+
+// Update active navigation based on scroll position
+function updateActiveNav(targetId) {
+    // Remove active class from all nav links
+    document.querySelectorAll('.nav-links a, .footer-links a').forEach(link => {
+        link.classList.remove('active');
+    });
+
+    // Add active class to current section
+    document.querySelectorAll(`a[href="${targetId}"]`).forEach(link => {
+        link.classList.add('active');
+    });
+}
+
+// Update active navigation on scroll
+window.addEventListener('scroll', () => {
+    const sections = document.querySelectorAll('section[id]');
+    const scrollPosition = window.scrollY + 100;
+
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = '#' + section.getAttribute('id');
+
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            updateActiveNav(sectionId);
         }
     });
 });
