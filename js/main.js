@@ -68,6 +68,8 @@ if (contactForm) {
                 throw new Error('Greška pri slanju poruke');
             }
         } catch (error) {
+            // Show error message
+            alert('Došlo je do greške pri slanju poruke. Molimo pokušajte ponovo.');
             console.error('Form submission error:', error);
         } finally {
             // Reset button state
